@@ -3,7 +3,7 @@ from model.character_class import CharacterClass
 wizard_modifiers = {
     "intelligence": 2,
     "dexterity": 0,
-    "strength": -1
+    "strength": -2
 }
 wizard_abilities = ["Fireball", "Teleport"]
 

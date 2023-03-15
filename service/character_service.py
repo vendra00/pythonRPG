@@ -2,7 +2,8 @@ from model.attribute import Attributes
 from model.character import Character
 
 
-def create_character(name, health, attack, defense, level, attributes, race_name, class_name, race_data, class_data):
+def create_character(name, attack, defense, level, attributes, race_name, class_name, race_data, class_data, experience,
+                     health=None):
     race = race_data[race_name]
     character_class = class_data[class_name]
 
@@ -12,10 +13,14 @@ def create_character(name, health, attack, defense, level, attributes, race_name
     # Calculate max_health based on Strength
     max_health = adjusted_attributes.strength * 10 + 25
 
+    # Set health to max_health if not provided
+    if health is None:
+        health = max_health
+
     # Ensure the character's health doesn't exceed max_health
     health = min(health, max_health)
 
-    character = Character(name, health, max_health, attack, defense, level, adjusted_attributes, race, character_class)
+    character = Character(name, health, max_health, attack, defense, level, adjusted_attributes, race, character_class, experience)
     return character
 
 
@@ -50,6 +55,11 @@ def is_alive(character):
     return character.health > 0
 
 
+def award_experience(character, experience_points):
+    character.experience += experience_points
+    print(f"{character.name} gained {experience_points} experience points!")
+
+
 def character_str(character):
     attribute_str = "\n".join([f"{key.capitalize()}: {value}" for key, value in character.attributes.__dict__.items()])
     abilities_str = ", ".join(character.character_class.abilities)
@@ -63,7 +73,8 @@ def character_str(character):
         f"Attack: {character.attack}\n"
         f"Defense: {character.defense}\n"
         f"Attributes:\n{attribute_str}\n"
-        f"Abilities: {abilities_str}"
+        f"Abilities: {abilities_str}\n"
+        f"Experience: {character.experience}"
     )
 
 # Add more functions for character operations as needed
