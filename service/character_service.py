@@ -1,10 +1,14 @@
 from typing import Tuple, Optional
 
+from colorama import init, Style, Fore
+
 from model.character_class import CharacterClass
 from model.race import Race
 from model.attribute import Attributes
 from model.calculated_attribute import CalculatedAttributes
 from model.character import Character
+
+init(autoreset=True)  # Automatically resets the color after each print statement
 
 
 def create_character(name, attack, defense, level, attributes, race_name, class_name, race_data, class_data, experience,
@@ -193,7 +197,8 @@ def attack_enemy(attacker: Character, defender: Character) -> None:
     """
     damage_dealt = max(0, attacker.attack - defender.defense)
     take_damage(defender, damage_dealt)  # Use the take_damage function instead of the method
-    print(f"{attacker.name} attacks {defender.name} for {damage_dealt} damage!")
+    print(f"{attacker.name} attacks {defender.name} and deals "
+          f"{Style.BRIGHT}{Fore.RED}{damage_dealt}{Style.RESET_ALL} damage.")
 
 
 def take_damage(character: Character, damage: int) -> None:
@@ -335,14 +340,25 @@ def print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_int
     :param old_max_stamina: The character's old max stamina before leveling up.
     :return: None
     """
-    print(f"{character.name} has leveled up to level {character.level}!")
-    print(f"Lvl {old_level} -> {character.level}")
-    print(f"Max health {old_max_health} -> {character.max_health}")
-    print(f"Max mana {old_max_mana} -> {character.max_mana}")
-    print(f"Max stamina {old_max_stamina} -> {character.max_stamina}")
-    print(f"Strength {old_level_strength} -> {character.attributes.strength}")
-    print(f"Intelligence {old_level_intelligence} -> {character.attributes.intelligence}")
-    print(f"Dexterity {old_level_dexterity} -> {character.attributes.dexterity}")
+    print("\n" + "=" * 40)
+    print(f"{Fore.GREEN}{character.name} has leveled up to level {character.level}!\n{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Level{Style.RESET_ALL}        {old_level:>3} -> {Style.BRIGHT}{character.level:<3}{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Max Health{Style.RESET_ALL}   {old_max_health:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_health:<3}"
+          f"{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Max Mana{Style.RESET_ALL}     {old_max_mana:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_mana:<3}"
+          f"{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Max Stamina{Style.RESET_ALL}  {old_max_stamina:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_stamina:<3}"
+          f"{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Strength{Style.RESET_ALL}     {old_level_strength:>3} -> {Style.BRIGHT}{Fore.YELLOW}"
+          f"{character.attributes.strength:<3}{Style.RESET_ALL}")
+    print(
+        f"{Style.BRIGHT}Intelligence{Style.RESET_ALL} {old_level_intelligence:>3} -> {Style.BRIGHT}{Fore.YELLOW}"
+        f"{character.attributes.intelligence:<3}"
+        f"{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Dexterity{Style.RESET_ALL}    {old_level_dexterity:>3} -> {Style.BRIGHT}{Fore.YELLOW}"
+          f"{character.attributes.dexterity:<3}"
+          f"{Style.RESET_ALL}")
+    print("=" * 40 + "\n")
 
 
 def award_experience(character, experience_points):
@@ -460,29 +476,29 @@ def calculate_physical_power(attributes: Attributes) -> float:
 
 
 def character_str(character: Character) -> str:
-    """
-    Generate a string representation of a character, displaying all of its attributes.
-
-    :param character: The character object.
-    :return: A formatted string containing all the character's attributes.
-    """
-    attribute_str = "\n".join([f"{key.capitalize()}: {value}" for key, value in character.attributes.__dict__.items()])
-    calculated_attr_str = "\n".join([f"{key.capitalize()}: {value}" for key, value in
+    separator = "\n" + "=" * 40
+    attribute_str = "\n".join([f"{key.capitalize()}: {Fore.YELLOW}{value}{Style.RESET_ALL}" for key, value in
+                               character.attributes.__dict__.items()])
+    calculated_attr_str = "\n".join([f"{key.capitalize()}: {Fore.GREEN}{value}{Style.RESET_ALL}" for key, value in
                                      character.calculated_attributes.__dict__.items()])
-    abilities_str = ", ".join(character.character_class.abilities)
+    abilities_str = f"{Fore.CYAN}{', '.join(character.character_class.abilities)}{Style.RESET_ALL}"
 
     return (
-        f"Name: {character.name}\n"
-        f"Class: {character.character_class.name}\n"
-        f"Race: {character.race.name}\n"
-        f"Level: {character.level}\n"
-        f"Current Health: {character.health}/{character.max_health}\n"
-        f"Current stamina: {character.stamina}/{character.max_stamina}\n"
-        f"Current Mana: {character.mana}/{character.max_mana}\n"
-        f"Attack: {character.attack}\n"
-        f"Defense: {character.defense}\n"
+        f"{separator}"
+        f"{separator}\n"
+        f"Name: {Fore.GREEN}{character.name}{Style.RESET_ALL}"
+        f"{separator}\n"
+        f"Class: {Fore.GREEN}{character.character_class.name}{Style.RESET_ALL}\n"
+        f"Race: {Fore.GREEN}{character.race.name}{Style.RESET_ALL}\n"
+        f"Level: {Fore.GREEN}{character.level}{Style.RESET_ALL}\n"
+        f"Current Health: {Fore.GREEN}{character.health}/{character.max_health}{Style.RESET_ALL}\n"
+        f"Current Stamina: {Fore.GREEN}{character.stamina}/{character.max_stamina}{Style.RESET_ALL}\n"
+        f"Current Mana: {Fore.GREEN}{character.mana}/{character.max_mana}{Style.RESET_ALL}\n"
+        f"Attack: {Fore.GREEN}{character.attack}{Style.RESET_ALL}\n"
+        f"Defense: {Fore.GREEN}{character.defense}{Style.RESET_ALL}\n"
         f"Attributes:\n{attribute_str}\n"
         f"Calculated Attributes:\n{calculated_attr_str}\n"
         f"Abilities: {abilities_str}\n"
-        f"Experience: {character.experience}"
+        f"Experience: {Fore.GREEN}{character.experience}{Style.RESET_ALL}"
+        f"{separator}"
     )
