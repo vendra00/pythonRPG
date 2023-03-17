@@ -7,6 +7,7 @@ def battle(character1, character2):
     while is_alive(character1) and is_alive(character2):
         print(f"Round {round_number}:")
 
+        # Attack round
         if is_alive(character1):
             attack_enemy(character1, character2)
         if is_alive(character2):
@@ -22,14 +23,7 @@ def battle(character1, character2):
         return None
     else:
         winner = character1 if is_alive(character1) else character2
-        award_experience(winner, 100)
+        award_experience(winner, 100)  # Award experience points to the winner
         print(f"\nBattle ends!\n{winner.name} wins!")
 
         return winner
-
-
-def attack_round(attacker, defender):
-    damage_dealt = max(0, attacker.attack - defender.defense)
-    take_damage(defender, damage_dealt)
-    print(
-        f"{attacker.name} attacks {defender.name} for {damage_dealt} damage! {defender.name} has {defender.health} health remaining.")
