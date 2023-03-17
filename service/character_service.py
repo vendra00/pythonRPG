@@ -16,7 +16,8 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
     :param attack: The base attack value of the character.
     :param defense: The base defense value of the character.
     :param level: The character's level.
-    :param attributes: An Attributes object containing the character's base attributes (strength, intelligence, agility).
+    :param attributes: An Attributes object containing the character's base attributes (strength,
+    intelligence, agility).
     :param race_name: The name of the character's race.
     :param class_name: The name of the character's class.
     :param race_data: A dictionary containing race data.
@@ -224,8 +225,8 @@ def level_up(character):
     """
 
     # Save the character's old values
-    old_level, old_level_dexterity, old_level_intelligence, old_level_strength, old_max_health, old_max_mana, old_max_stamina = hold_old_lvl_stats(
-        character)
+    old_level, old_level_dexterity, old_level_intelligence, old_level_strength, old_max_health, old_max_mana, \
+        old_max_stamina = hold_old_lvl_stats(character)
 
     # Increase the character's level by 1
     character.level += 1
@@ -267,7 +268,8 @@ def hold_old_lvl_stats(character) -> Tuple[int, int, int, int, int, int, int]:
     Save the character's old values before leveling up.
 
     :param character: The character whose old values need to be saved.
-    :return: A tuple containing the old level, old dexterity, old intelligence, old strength, old max health, old max mana, and old max stamina.
+    :return: A tuple containing the old level, old dexterity, old intelligence, old strength, old max health,
+    old max mana, and old max stamina.
     """
     old_level = character.level
     old_level_strength = character.attributes.strength
@@ -276,7 +278,8 @@ def hold_old_lvl_stats(character) -> Tuple[int, int, int, int, int, int, int]:
     old_max_health = character.max_health
     old_max_mana = character.max_mana
     old_max_stamina = character.max_stamina
-    return old_level, old_level_dexterity, old_level_intelligence, old_level_strength, old_max_health, old_max_mana, old_max_stamina
+    return old_level, old_level_dexterity, old_level_intelligence, old_level_strength, old_max_health, old_max_mana, \
+        old_max_stamina
 
 
 def attributes_updater(character) -> None:
