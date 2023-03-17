@@ -9,6 +9,26 @@ from model.character import Character
 
 def create_character(name, attack, defense, level, attributes, race_name, class_name, race_data, class_data, experience,
                      health=None, stamina=None, mana=None):
+    """
+    Create a character with the given parameters.
+
+    :param name: The name of the character.
+    :param attack: The base attack value of the character.
+    :param defense: The base defense value of the character.
+    :param level: The character's level.
+    :param attributes: An Attributes object containing the character's base attributes (strength,
+    intelligence, agility).
+    :param race_name: The name of the character's race.
+    :param class_name: The name of the character's class.
+    :param race_data: A dictionary containing race data.
+    :param class_data: A dictionary containing class data.
+    :param experience: The character's experience points.
+    :param health: The character's current health (optional). If not provided, it will be set to max_health.
+    :param stamina: The character's current stamina (optional). If not provided, it will be set to max_stamina.
+    :param mana: The character's current mana (optional). If not provided, it will be set to max_mana.
+
+    :return: A dictionary representing the character with the given parameters and calculated derived attributes.
+    """
     # Set character bio
     character_class, race = set_character_bio(class_data, class_name, race_data, race_name)
 
@@ -29,6 +49,16 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
                                              level, mana, max_health, max_mana, max_stamina, name, race, stamina)
 
     return character
+
+
+def exp_to_next_level(current_level):
+    """
+    Calculate the experience points required for the character to reach the next level.
+
+    :param current_level: The current level of the character.
+    :return: Experience points required to reach the next level.
+    """
+    return (current_level ** 2) * 100
 
 
 def set_character_bio(class_data: dict, class_name: str, race_data: dict,
@@ -166,20 +196,6 @@ def attack_enemy(attacker: Character, defender: Character) -> None:
     print(f"{attacker.name} attacks {defender.name} for {damage_dealt} damage!")
 
 
-def level_up(character: Character) -> None:
-    """
-    Increase the character's level and update the associated attributes.
-
-    :param character: The Character instance to level up.
-    """
-    character.level += 1
-    character.health += 10
-    character.stamina += 5
-    character.attack += 2
-    character.defense += 2
-    print(f"{character.name} has leveled up to level {character.level}!")
-
-
 def take_damage(character: Character, damage: int) -> None:
     """
     Inflict damage to a character, reducing their health.
@@ -200,15 +216,157 @@ def is_alive(character: Character) -> bool:
     return character.health > 0
 
 
-def award_experience(character: Character, experience_points: int) -> None:
+def level_up(character):
     """
-    Award experience points to a character and display a message.
+    Level up the character, increasing their level, attributes, and other properties.
 
-    :param character: The Character instance to award experience points to.
-    :param experience_points: The number of experience points to award.
+    :param character: The character to level up.
+    :return: The updated character.
     """
+
+    # Save the character's old values
+    old_level, old_level_dexterity, old_level_intelligence, old_level_strength, old_max_health, old_max_mana, \
+        old_max_stamina = hold_old_lvl_stats(character)
+
+    # Increase the character's level by 1
+    character.level += 1
+
+    # Update the character's attributes
+    attributes_updater(character)
+
+    # Recalculate derived attributes
+    character.max_health, character.max_mana, character.max_stamina = \
+        calculate_max_values(character.attributes)
+
+    # Recalculate derived attributes
+    character = prepare_character_recalculate(character)
+
+    # Restore health, mana, and stamina to their maximum values
+    restore_vitals(character)
+
+    # Print the character's new stats
+    print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_intelligence, old_level_strength,
+                        old_max_health, old_max_mana, old_max_stamina)
+
+    return character
+
+
+def restore_vitals(character) -> None:
+    """
+    Restore the character's health, mana, and stamina to their maximum values.
+
+    :param character: The character whose vitals need to be restored.
+    :return: None
+    """
+    character.health = character.max_health
+    character.mana = character.max_mana
+    character.stamina = character.max_stamina
+
+
+def hold_old_lvl_stats(character) -> Tuple[int, int, int, int, int, int, int]:
+    """
+    Save the character's old values before leveling up.
+
+    :param character: The character whose old values need to be saved.
+    :return: A tuple containing the old level, old dexterity, old intelligence, old strength, old max health,
+    old max mana, and old max stamina.
+    """
+    old_level = character.level
+    old_level_strength = character.attributes.strength
+    old_level_intelligence = character.attributes.intelligence
+    old_level_dexterity = character.attributes.dexterity
+    old_max_health = character.max_health
+    old_max_mana = character.max_mana
+    old_max_stamina = character.max_stamina
+    return old_level, old_level_dexterity, old_level_intelligence, old_level_strength, old_max_health, old_max_mana, \
+        old_max_stamina
+
+
+def attributes_updater(character) -> None:
+    """
+    Update the character's attributes upon leveling up.
+
+    :param character: The character whose attributes need to be updated.
+    :return: None
+    """
+    character.attributes.strength += 1
+    character.attributes.intelligence += 1
+    character.attributes.dexterity += 1
+
+
+def prepare_character_recalculate(character) -> Character:
+    """
+    Prepare the character for recalculating derived attributes.
+
+    :param character: The character whose derived attributes need to be recalculated.
+    :return: The updated character with recalculated derived attributes.
+    """
+    character = calculate_derived_attributes(
+        adjusted_attributes=character.attributes,
+        attack=character.attack,
+        character_class=character.character_class,
+        defense=character.defense,
+        experience=character.experience,
+        health=character.health,
+        level=character.level,
+        mana=character.mana,
+        max_health=character.max_health,
+        max_mana=character.max_mana,
+        max_stamina=character.max_stamina,
+        name=character.name,
+        race=character.race,
+        stamina=character.stamina
+    )
+    return character
+
+
+def print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_intelligence, old_level_strength,
+                        old_max_health, old_max_mana, old_max_stamina) -> None:
+    """
+    Print the character's new stats after leveling up.
+
+    :param character: The character whose new stats need to be printed.
+    :param old_level: The character's old level before leveling up.
+    :param old_level_dexterity: The character's old dexterity before leveling up.
+    :param old_level_intelligence: The character's old intelligence before leveling up.
+    :param old_level_strength: The character's old strength before leveling up.
+    :param old_max_health: The character's old max health before leveling up.
+    :param old_max_mana: The character's old max mana before leveling up.
+    :param old_max_stamina: The character's old max stamina before leveling up.
+    :return: None
+    """
+    print(f"{character.name} has leveled up to level {character.level}!")
+    print(f"Lvl {old_level} -> {character.level}")
+    print(f"Max health {old_max_health} -> {character.max_health}")
+    print(f"Max mana {old_max_mana} -> {character.max_mana}")
+    print(f"Max stamina {old_max_stamina} -> {character.max_stamina}")
+    print(f"Strength {old_level_strength} -> {character.attributes.strength}")
+    print(f"Intelligence {old_level_intelligence} -> {character.attributes.intelligence}")
+    print(f"Dexterity {old_level_dexterity} -> {character.attributes.dexterity}")
+
+
+def award_experience(character, experience_points):
+    """
+    Award experience points to the character and level up the character if necessary.
+
+    :param character: The character to receive the experience points.
+    :param experience_points: The amount of experience points to award.
+    :return: The updated character.
+    """
+    # Add experience points to the character's current experience
     character.experience += experience_points
+
     print(f"{character.name} gained {experience_points} experience points!")
+
+    # Check if the character has enough experience points to level up
+    while character.experience >= exp_to_next_level(character.level):
+        # Subtract the experience points required to level up
+        character.experience -= exp_to_next_level(character.level)
+
+        # Level up the character
+        character = level_up(character)
+
+    return character
 
 
 def calculate_initiative(attributes: Attributes) -> float:
