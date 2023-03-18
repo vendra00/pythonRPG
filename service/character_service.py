@@ -20,8 +20,7 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
     :param attack: The base attack value of the character.
     :param defense: The base defense value of the character.
     :param level: The character's level.
-    :param attributes: An Attributes object containing the character's base attributes (strength,
-    intelligence, agility).
+    :param attributes: An Attributes object containing the character's base attributes (strength, intelligence, agility).
     :param race_name: The name of the character's race.
     :param class_name: The name of the character's class.
     :param race_data: A dictionary containing race data.
@@ -32,6 +31,9 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
     :param mana: The character's current mana (optional). If not provided, it will be set to max_mana.
 
     :return: A dictionary representing the character with the given parameters and calculated derived attributes.
+    :rtype: dict
+    :raises ValueError: if race_name or class_name are not in the respective data dictionaries.
+    :raises TypeError: if attributes is not an instance of the Attributes class.
     """
     # Set character bio
     character_class, race = set_character_bio(class_data, class_name, race_data, race_name)
