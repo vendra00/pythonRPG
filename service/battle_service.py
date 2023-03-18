@@ -119,7 +119,7 @@ def get_decision(character):
 
     if decision_type == "ability":
         # Get ability input, for example, "fireball"
-        decision_data = input("Enter the ability you want to use: ").lower().strip()
+        decision_data = input("Enter the ability you want to use: ")
     elif decision_type == "item":
         # Get item input, for example, "potion"
         decision_data = input("Enter the item you want to use: ").lower()
@@ -128,8 +128,8 @@ def get_decision(character):
 
 
 def use_ability(character, enemy, decision_data):
-    ability_name = decision_data['ability_name']
-    ability = character.character_class.abilities.get(ability_name)
+    ability_name = decision_data['title']
+    ability = decision_data
 
     if ability is None:
         print(f"{character.name} tried to use an unknown ability: {ability_name}")
