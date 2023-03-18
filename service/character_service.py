@@ -20,8 +20,8 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
     :param attack: The base attack value of the character.
     :param defense: The base defense value of the character.
     :param level: The character's level.
-    :param attributes: An Attributes object containing the character's base attributes (strength,
-    intelligence, agility).
+    :param attributes: An Attributes object containing the character's base attributes
+    (strength, intelligence, agility).
     :param race_name: The name of the character's race.
     :param class_name: The name of the character's class.
     :param race_data: A dictionary containing race data.
@@ -32,15 +32,18 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
     :param mana: The character's current mana (optional). If not provided, it will be set to max_mana.
 
     :return: A dictionary representing the character with the given parameters and calculated derived attributes.
+    :rtype: dict
+    :raises ValueError: if race_name or class_name are not in the respective data dictionaries.
+    :raises TypeError: if attributes is not an instance of the Attributes class.
     """
     # Set character bio
     character_class, race = set_character_bio(class_data, class_name, race_data, race_name)
 
     # Apply race attribute bonuses
-    adjusted_attributes = apply_race_attribute_bonuses(attributes, race)
+    adjusted_attributes = apply_attributes_adjustments(attributes, character_class, race)
 
     # Calculate max values based on attributes
-    max_health, max_mana, max_stamina = calculate_max_values(attributes)
+    max_health, max_mana, max_stamina = calculate_max_values(adjusted_attributes)
 
     # Set mana, health, stamina max values if not provided
     health, mana, stamina = set_max_values(health, mana, max_health, max_mana, max_stamina, stamina)
@@ -53,6 +56,23 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
                                              level, mana, max_health, max_mana, max_stamina, name, race, stamina)
 
     return character
+
+
+def apply_attributes_adjustments(attributes: Attributes, character_class: CharacterClass, race: Race) -> Attributes:
+    """
+    Applies attribute adjustments to a character based on their chosen class and race.
+
+    Args:
+        attributes (dict): A dictionary containing the initial attribute values for the character.
+        character_class (str): The chosen character class.
+        race (str): The chosen character race.
+
+    Returns:
+        dict: A dictionary containing the adjusted attribute values for the character.
+    """
+    adjusted_attributes_race = apply_race_attribute_bonuses(attributes, race)
+    adjusted_attributes = apply_class_attribute_bonuses(adjusted_attributes_race, character_class)
+    return adjusted_attributes
 
 
 def exp_to_next_level(current_level):
@@ -184,6 +204,22 @@ def apply_race_attribute_bonuses(attributes: Attributes, race: Race) -> Attribut
         intelligence=attributes.intelligence + race.attribute_bonuses["intelligence"],
         dexterity=attributes.dexterity + race.attribute_bonuses["dexterity"],
         strength=attributes.strength + race.attribute_bonuses["strength"],
+    )
+    return adjusted_attributes
+
+
+def apply_class_attribute_bonuses(attributes: Attributes, character_class: CharacterClass) -> Attributes:
+    """
+    Apply the attribute bonuses from the character's class to their base attributes.
+
+    :param character_class: The character's class as an instance of the character_class class.
+    :param attributes: The character's base attributes as an instance of the Attributes class.
+    :return: A new instance of the Attributes class with the adjusted attributes.
+    """
+    adjusted_attributes = Attributes(
+        intelligence=attributes.intelligence + character_class.modifiers["intelligence"],
+        dexterity=attributes.dexterity + character_class.modifiers["dexterity"],
+        strength=attributes.strength + character_class.modifiers["strength"],
     )
     return adjusted_attributes
 
@@ -342,12 +378,16 @@ def print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_int
     """
     print("\n" + "=" * 40)
     print(f"{Fore.GREEN}{character.name} has leveled up to level {character.level}!\n{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Level{Style.RESET_ALL}        {old_level:>3} -> {Style.BRIGHT}{character.level:<3}{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Max Health{Style.RESET_ALL}   {old_max_health:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_health:<3}"
+    print(f"{Style.BRIGHT}Level{Style.RESET_ALL}        {old_level:>3} -> {Style.BRIGHT}{character.level:<3}"
           f"{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Max Mana{Style.RESET_ALL}     {old_max_mana:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_mana:<3}"
+    print(f"{Style.BRIGHT}Max Health{Style.RESET_ALL}   {old_max_health:>3} -> {Style.BRIGHT}{Fore.CYAN}"
+          f"{character.max_health:<3}"
           f"{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Max Stamina{Style.RESET_ALL}  {old_max_stamina:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_stamina:<3}"
+    print(f"{Style.BRIGHT}Max Mana{Style.RESET_ALL}     {old_max_mana:>3} -> {Style.BRIGHT}{Fore.CYAN}"
+          f"{character.max_mana:<3}"
+          f"{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Max Stamina{Style.RESET_ALL}  {old_max_stamina:>3} -> {Style.BRIGHT}{Fore.CYAN}"
+          f"{character.max_stamina:<3}"
           f"{Style.RESET_ALL}")
     print(f"{Style.BRIGHT}Strength{Style.RESET_ALL}     {old_level_strength:>3} -> {Style.BRIGHT}{Fore.YELLOW}"
           f"{character.attributes.strength:<3}{Style.RESET_ALL}")

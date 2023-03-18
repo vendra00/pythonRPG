@@ -11,7 +11,7 @@ hero_race = "Elf"
 enemy_race = "Elf"
 
 hero_class = "Wizard"
-enemy_class = "Wizard"
+enemy_class = "Warlock"
 
 hero_attack = 10
 enemy_attack = 10
