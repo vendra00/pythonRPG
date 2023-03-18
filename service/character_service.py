@@ -342,12 +342,16 @@ def print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_int
     """
     print("\n" + "=" * 40)
     print(f"{Fore.GREEN}{character.name} has leveled up to level {character.level}!\n{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Level{Style.RESET_ALL}        {old_level:>3} -> {Style.BRIGHT}{character.level:<3}{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Max Health{Style.RESET_ALL}   {old_max_health:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_health:<3}"
+    print(f"{Style.BRIGHT}Level{Style.RESET_ALL}        {old_level:>3} -> {Style.BRIGHT}{character.level:<3}"
           f"{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Max Mana{Style.RESET_ALL}     {old_max_mana:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_mana:<3}"
+    print(f"{Style.BRIGHT}Max Health{Style.RESET_ALL}   {old_max_health:>3} -> {Style.BRIGHT}{Fore.CYAN}"
+          f"{character.max_health:<3}"
           f"{Style.RESET_ALL}")
-    print(f"{Style.BRIGHT}Max Stamina{Style.RESET_ALL}  {old_max_stamina:>3} -> {Style.BRIGHT}{Fore.CYAN}{character.max_stamina:<3}"
+    print(f"{Style.BRIGHT}Max Mana{Style.RESET_ALL}     {old_max_mana:>3} -> {Style.BRIGHT}{Fore.CYAN}"
+          f"{character.max_mana:<3}"
+          f"{Style.RESET_ALL}")
+    print(f"{Style.BRIGHT}Max Stamina{Style.RESET_ALL}  {old_max_stamina:>3} -> {Style.BRIGHT}{Fore.CYAN}"
+          f"{character.max_stamina:<3}"
           f"{Style.RESET_ALL}")
     print(f"{Style.BRIGHT}Strength{Style.RESET_ALL}     {old_level_strength:>3} -> {Style.BRIGHT}{Fore.YELLOW}"
           f"{character.attributes.strength:<3}{Style.RESET_ALL}")

@@ -1,3 +1,16 @@
+"""
+A module containing the data for various races in a game.
+
+Each race has a set of attribute bonuses.
+Races can be added or modified as needed.
+
+Attributes:
+    elf_attribute_bonuses (dict): A dictionary containing the attribute bonuses for the Elf race.
+    human_attribute_bonuses (dict): A dictionary containing the attribute bonuses for the Human race.
+    orc_attribute_bonuses (dict): A dictionary containing the attribute bonuses for the Orc race.
+    dwarf_attribute_bonuses (dict): A dictionary containing the attribute bonuses for the Dwarf race.
+    race_data (dict): A dictionary containing Race instances for each race in the game.
+"""
 from model.race import Race
 
 elf_attribute_bonuses = {

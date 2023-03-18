@@ -10,7 +10,7 @@ enemy_name = "Sauron"
 hero_race = "Elf"
 enemy_race = "Elf"
 
-hero_class = "Wizard"
+hero_class = "Barbarian"
 enemy_class = "Wizard"
 
 hero_attack = 10
