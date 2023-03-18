@@ -49,10 +49,10 @@ def print_health_remaining(character1, character2):
         :param character1: The first character object.
         :param character2: The second character object.
     """
-    print(f"{character1.name} has {Style.BRIGHT}{health_color(character1)}{character1.health}{Style.RESET_ALL} "
-          f"health remaining.")
-    print(f"{character2.name} has {Style.BRIGHT}{health_color(character2)}{character2.health}{Style.RESET_ALL} "
-          f"health remaining.")
+    print(f"{character1.name} has {Style.BRIGHT}{health_color(character1)}{round(character1.health, 2)}"
+          f"{Style.RESET_ALL} health remaining.")
+    print(f"{character2.name} has {Style.BRIGHT}{health_color(character2)}{round(character2.health, 2)}"
+          f"{Style.RESET_ALL} health remaining.")
 
 
 def check_if_character_is_alive_and_attack(character1, character2):

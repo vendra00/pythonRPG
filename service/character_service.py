@@ -231,10 +231,34 @@ def attack_enemy(attacker: Character, defender: Character) -> None:
     :param attacker: The attacking Character instance.
     :param defender: The defending Character instance.
     """
-    damage_dealt = max(0, attacker.attack - defender.defense)
+    damage_dealt = calculate_physical_dmg(attacker, defender)
     take_damage(defender, damage_dealt)  # Use the take_damage function instead of the method
+    print_attack_log(attacker, damage_dealt, defender)
+
+
+def print_attack_log(attacker, damage_dealt, defender):
+    """
+        Print the attack log message for a given attack.
+
+        :param attacker: The attacking Character instance.
+        :param damage_dealt: The amount of damage dealt by the attacker.
+        :param defender: The defending Character instance.
+    """
     print(f"{attacker.name} attacks {defender.name} and deals "
-          f"{Style.BRIGHT}{Fore.RED}{damage_dealt}{Style.RESET_ALL} damage.")
+          f"{Style.BRIGHT}{Fore.RED}{round(damage_dealt, 2)}{Style.RESET_ALL} damage.")
+
+
+def calculate_physical_dmg(attacker, defender):
+    """
+        Calculates the physical damage dealt by the attacker to the defender based on the defender's physical
+        resistance.
+
+        :param attacker: The attacking Character instance.
+        :param defender: The defending Character instance.
+
+        :return: The amount of physical damage dealt to the defender by the attacker.
+    """
+    return max(0, attacker.attack - (defender.defense * defender.calculated_attributes.physical_resistence/100))
 
 
 def take_damage(character: Character, damage: int) -> None:
