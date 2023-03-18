@@ -37,10 +37,10 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
     character_class, race = set_character_bio(class_data, class_name, race_data, race_name)
 
     # Apply race attribute bonuses
-    adjusted_attributes = apply_race_attribute_bonuses(attributes, race)
+    adjusted_attributes = apply_attributes_adjustments(attributes, character_class, race)
 
     # Calculate max values based on attributes
-    max_health, max_mana, max_stamina = calculate_max_values(attributes)
+    max_health, max_mana, max_stamina = calculate_max_values(adjusted_attributes)
 
     # Set mana, health, stamina max values if not provided
     health, mana, stamina = set_max_values(health, mana, max_health, max_mana, max_stamina, stamina)
@@ -53,6 +53,23 @@ def create_character(name, attack, defense, level, attributes, race_name, class_
                                              level, mana, max_health, max_mana, max_stamina, name, race, stamina)
 
     return character
+
+
+def apply_attributes_adjustments(attributes: Attributes, character_class: CharacterClass, race: Race) -> Attributes:
+    """
+    Applies attribute adjustments to a character based on their chosen class and race.
+
+    Args:
+        attributes (dict): A dictionary containing the initial attribute values for the character.
+        character_class (str): The chosen character class.
+        race (str): The chosen character race.
+
+    Returns:
+        dict: A dictionary containing the adjusted attribute values for the character.
+    """
+    adjusted_attributes_race = apply_race_attribute_bonuses(attributes, race)
+    adjusted_attributes = apply_class_attribute_bonuses(adjusted_attributes_race, character_class)
+    return adjusted_attributes
 
 
 def exp_to_next_level(current_level):
@@ -184,6 +201,22 @@ def apply_race_attribute_bonuses(attributes: Attributes, race: Race) -> Attribut
         intelligence=attributes.intelligence + race.attribute_bonuses["intelligence"],
         dexterity=attributes.dexterity + race.attribute_bonuses["dexterity"],
         strength=attributes.strength + race.attribute_bonuses["strength"],
+    )
+    return adjusted_attributes
+
+
+def apply_class_attribute_bonuses(attributes: Attributes, character_class: CharacterClass) -> Attributes:
+    """
+    Apply the attribute bonuses from the character's class to their base attributes.
+
+    :param character_class: The character's class as an instance of the character_class class.
+    :param attributes: The character's base attributes as an instance of the Attributes class.
+    :return: A new instance of the Attributes class with the adjusted attributes.
+    """
+    adjusted_attributes = Attributes(
+        intelligence=attributes.intelligence + character_class.modifiers["intelligence"],
+        dexterity=attributes.dexterity + character_class.modifiers["dexterity"],
+        strength=attributes.strength + character_class.modifiers["strength"],
     )
     return adjusted_attributes
 

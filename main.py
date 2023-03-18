@@ -10,8 +10,8 @@ enemy_name = "Sauron"
 hero_race = "Elf"
 enemy_race = "Elf"
 
-hero_class = "Barbarian"
-enemy_class = "Wizard"
+hero_class = "Wizard"
+enemy_class = "Warlock"
 
 hero_attack = 10
 enemy_attack = 10
