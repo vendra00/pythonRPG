@@ -250,15 +250,33 @@ def print_attack_log(attacker, damage_dealt, defender):
 
 def calculate_physical_dmg(attacker, defender):
     """
-        Calculates the physical damage dealt by the attacker to the defender based on the defender's physical
-        resistance.
+        Calculates the amount of physical damage the attacker inflicts on the defender.
 
-        :param attacker: The attacking Character instance.
-        :param defender: The defending Character instance.
-
-        :return: The amount of physical damage dealt to the defender by the attacker.
+        :param attacker: A Character object representing the attacker.
+        :param defender: A Character object representing the defender.
+        :return: A float value representing the amount of physical damage the attacker inflicts on the defender.
     """
-    return max(0, attacker.attack - (defender.defense * defender.calculated_attributes.physical_resistence/100))
+    return max(0, (attack_formula(attacker)) - (defender_formula(defender)))
+
+
+def defender_formula(defender):
+    """
+        Calculate the defender's physical resistance based on their defense and physical resistance attribute.
+
+        :param defender: The defending Character instance.
+        :return: The calculated physical resistance of the defender.
+    """
+    return defender.defense * defender.calculated_attributes.physical_resistence / 100
+
+
+def attack_formula(attacker):
+    """
+        Calculates the attack value for a physical attack.
+
+        :param attacker: The character performing the attack.
+        :return: The attack value based on the attacker's physical power attribute.
+    """
+    return attacker.attack * attacker.calculated_attributes.physical_power / 100
 
 
 def take_damage(character: Character, damage: int) -> None:
