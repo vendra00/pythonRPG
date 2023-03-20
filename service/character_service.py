@@ -227,18 +227,6 @@ def apply_class_attribute_bonuses(attributes: Attributes, character_class: Chara
     return adjusted_attributes
 
 
-def attack_enemy(attacker: Character, defender: Character) -> None:
-    """
-    Calculate the damage dealt by the attacker to the defender, apply the damage, and print the result.
-
-    :param attacker: The attacking Character instance.
-    :param defender: The defending Character instance.
-    """
-    damage_dealt: float = calculate_physical_dmg(attacker, defender)
-    take_damage(defender, damage_dealt)  # Use the take_damage function instead of the method
-    print_attack_log(attacker, damage_dealt, defender)
-
-
 def print_attack_log(attacker: Character, damage_dealt: float, defender: Character) -> None:
     """
         Print the attack log message for a given attack.
@@ -269,7 +257,7 @@ def defender_formula(defender: Character) -> float:
         :param defender: The defending Character instance.
         :return: The calculated physical resistance of the defender.
     """
-    return defender.defense * defender.calculated_attributes.physical_resistence / 100
+    return (defender.defense * defender.calculated_attributes.physical_resistence) / 100
 
 
 def attack_formula(attacker):
@@ -279,17 +267,7 @@ def attack_formula(attacker):
         :param attacker: The character performing the attack.
         :return: The attack value based on the attacker's physical power attribute.
     """
-    return attacker.attack * attacker.calculated_attributes.physical_power / 100
-
-
-def take_damage(character: Character, damage: float) -> None:
-    """
-    Inflict damage to a character, reducing their health.
-
-    :param character: The Character instance to take damage.
-    :param damage: The amount of damage to be inflicted.
-    """
-    character.health -= damage
+    return (attacker.attack * attacker.calculated_attributes.physical_power) / 100
 
 
 def is_alive(character: Character) -> bool:
@@ -483,7 +461,7 @@ def add_exp(character: Character, experience_points: int) -> None:
 
 
 def print_gained_exp(character: Character, experience_points: int) -> None:
-    print(f"{character.name} gained {experience_points} experience points!")
+    print(f"{character.name} gained {Style.BRIGHT}{Fore.CYAN}{experience_points}{Style.RESET_ALL} experience points!")
 
 
 def calculate_initiative(attributes: Attributes) -> float:

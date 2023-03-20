@@ -6,7 +6,7 @@ from model import ability_pool
 from model.character import Character
 from model.format_factory import separator
 from model.game_enums import DecisionEnum, EffectTypeEnum
-from service.character_service import is_alive, attack_enemy, award_experience
+from service.character_service import is_alive, award_experience, calculate_physical_dmg, print_attack_log
 
 
 def battle(character1: Character, character2: Character) -> Union[Character, None]:
@@ -26,10 +26,10 @@ def battle(character1: Character, character2: Character) -> Union[Character, Non
         print_rounds(round_number)
 
         # Check if character is alive and attack
-        check_if_character_is_alive_and_attack(character1, character2)
+        check_if_character_is_alive_and_perform_action(character1, character2)
 
         # Print health remaining from characters
-        print_health_mana_remaining(character1, character2)
+        print_health_mana_stamina_remaining(character1, character2)
 
         # Add next round
         round_number: int = add_round(round_number)
@@ -37,7 +37,7 @@ def battle(character1: Character, character2: Character) -> Union[Character, Non
     # Check if characters are alive and print result
     if is_alive(character1) and is_alive(character2):
         # Print result
-        print_battle_result()
+        print_battle_result_draw()
         return None
     else:
         # Check who is alive and award experience
@@ -92,14 +92,14 @@ def print_battle_winner(winner: Character) -> None:
           f"{Style.RESET_ALL} {Style.BRIGHT}wins!{Style.RESET_ALL}{separator}")
 
 
-def print_battle_result():
+def print_battle_result_draw() -> None:
     """
         Print the result of a battle when it is a draw.
     """
     print(f"{separator}\nBattle ends!\nThe battle is a draw!")
 
 
-def print_rounds(round_number: int):
+def print_rounds(round_number: int) -> None:
     """
         Print the current round number with a separator before it.
 
@@ -108,38 +108,35 @@ def print_rounds(round_number: int):
     print(f"{separator}\n{Style.BRIGHT}Round {Fore.CYAN}{round_number}{Style.RESET_ALL}:")
 
 
-def print_health_mana_remaining(character1: Character, character2: Character):
-    """
-        Print the remaining health of two characters in a color-coded format based on their health percentages.
-
-        :param character1: The first character object.
-        :param character2: The second character object.
-    """
-    print(f"{separator}\n{Style.BRIGHT}{Fore.GREEN}{character1.name}{Style.RESET_ALL} has {Style.BRIGHT}"
-          f"{health_color(character1)}{int(character1.health)}"
-          f"{Style.RESET_ALL} health and {Style.BRIGHT}{Fore.BLUE}{int(character1.mana)}{Style.RESET_ALL}"
-          f" mana remaining.{separator}")
-    print(f"{separator}\n{Style.BRIGHT}{Fore.RED}{character2.name}{Style.RESET_ALL} has {Style.BRIGHT}"
-          f"{health_color(character2)}{int(character2.health)}"
-          f"{Style.RESET_ALL} health and {Style.BRIGHT}{Fore.BLUE}{int(character2.mana)}{Style.RESET_ALL} "
-          f"mana remaining.{separator}")
+def print_health_mana_stamina_remaining(hero: Character, enemy: Character) -> None:
+    print_hero_character(hero)
+    print_hero_character(enemy)
 
 
-def check_if_character_is_alive_and_attack(character1: Character, character2: Character) -> None:
+def print_hero_character(character: Character) -> None:
+    print(f"{separator}\n{Style.BRIGHT + Fore.GREEN}{character.name}{Style.RESET_ALL} has {Style.BRIGHT + Fore.RED}"
+          f"{int(character.health)}{Style.RESET_ALL}/{Style.BRIGHT + Fore.RED}{int(character.max_health)}"
+          f"{Style.RESET_ALL} health, {Style.BRIGHT + Fore.GREEN}{int(character.stamina)}"
+          f"{Style.RESET_ALL}/{Style.BRIGHT + Fore.GREEN}{int(character.max_stamina)}{Style.RESET_ALL} stamina and "
+          f"{Style.BRIGHT + Fore.BLUE}{int(character.mana)}{Style.RESET_ALL}/{Style.BRIGHT + Fore.BLUE}"
+          f"{int(character.max_mana)}{Style.RESET_ALL} mana remaining.{separator}")
+
+
+def check_if_character_is_alive_and_perform_action(hero: Character, enemy: Character) -> None:
     """
         Check if characters are alive and perform their decisions in a battle.
 
-        :param character1: The first character participating in the battle.
-        :param character2: The second character participating in the battle.
+        :param hero: The first character participating in the battle.
+        :param enemy: The second character participating in the battle.
         :return: None
     """
-    decision1: tuple = get_decision(character1)
-    decision2: tuple = get_decision(character2)
+    hero_decision: tuple = get_decision(hero)
+    enemy_decision: tuple = get_decision(enemy)
 
-    if is_alive(character1):
-        perform_decision(character1, character2, decision1)
-    if is_alive(character2):
-        perform_decision(character2, character1, decision2)
+    if is_alive(hero):
+        perform_decision(hero, enemy, hero_decision)
+    if is_alive(enemy):
+        perform_decision(enemy, hero, enemy_decision)
 
 
 def health_color(character: Character):
@@ -151,7 +148,7 @@ def health_color(character: Character):
     """
     health_percentage = (character.health / character.max_health) * 100
     if health_percentage > 70:
-        return Fore.GREEN
+        return Fore.LIGHTRED_EX
     if 30 <= health_percentage <= 70:
         return Fore.YELLOW
     else:
@@ -306,11 +303,11 @@ def flee_attempt(character: Character):
     pass
 
 
-def perform_decision(character: Character, enemy: Character, decision: tuple) -> None:
+def perform_decision(hero: Character, enemy: Character, decision: tuple) -> None:
     """
     Perform an action based on the character's decision.
 
-    :param character: The character object.
+    :param hero: The character object.
     :param enemy: The enemy character object.
     :param decision: A tuple with the decision type ('attack', 'ability', 'item', or 'flee')
     and the associated decision data.
@@ -320,20 +317,42 @@ def perform_decision(character: Character, enemy: Character, decision: tuple) ->
     if decision_type == DecisionEnum.ABILITY.value:
         ability_name = decision_data
         # Get the ability data from the ability_pool module for the character's class
-        class_abilities = getattr(ability_pool, character.character_class.name.lower(), {})
+        class_abilities = getattr(ability_pool, hero.character_class.name.lower(), {})
         ability_data = class_abilities.get(ability_name)
         if ability_data:
-            use_ability(character, enemy, ability_data)
+            use_ability(hero, enemy, ability_data)
         else:
-            print_charcarter_does_not_have_ability(ability_name, character)
+            print_charcarter_does_not_have_ability(ability_name, hero)
     elif decision_type == DecisionEnum.ATTACK.value:
-        attack_enemy(character, enemy)
+        attack_enemy(hero, enemy)
     elif decision_type == DecisionEnum.ITEM.value:
-        use_item(character, decision_data)
+        use_item(hero, decision_data)
     elif decision_type == DecisionEnum.FLEE.value:
-        flee_attempt(character)
+        flee_attempt(hero)
     else:
-        print_invalid_decision(character)
+        print_invalid_decision(hero)
+
+
+def attack_enemy(attacker: Character, defender: Character) -> None:
+    """
+    Calculate the damage dealt by the attacker to the defender, apply the damage, and print the result.
+
+    :param attacker: The attacking Character instance.
+    :param defender: The defending Character instance.
+    """
+    damage_dealt: float = calculate_physical_dmg(attacker, defender)
+    take_damage(defender, damage_dealt)  # Use the take_damage function instead of the method
+    print_attack_log(attacker, damage_dealt, defender)
+
+
+def take_damage(character: Character, damage: float) -> None:
+    """
+    Inflict damage to a character, reducing their health.
+
+    :param character: The Character instance to take damage.
+    :param damage: The amount of damage to be inflicted.
+    """
+    character.health -= damage
 
 
 def print_invalid_decision(character: Character) -> None:
