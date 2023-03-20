@@ -1,3 +1,6 @@
+from model.game_enums import AbilityTypeEnum, SpellTitleEnum, AbilityTargetTypeEnum, EffectTypeEnum, AbilityTargetEnum, \
+    SpellTypeEnum, EffectStatus, AbilityDescriptionEnum
+
 barbarian = {
     "Reckless Attack": {
         "title": "Reckless Attack",
@@ -514,44 +517,82 @@ warlock = {
 }
 
 wizard = {
-    "Magic Missile": {
-        "title": "Magic Missile",
+    SpellTitleEnum.MAGIC_MISSILE.value: {
+        "title": SpellTitleEnum.MAGIC_MISSILE.value,
+        "ability_type": AbilityTypeEnum.SPELL.value,
+        "ability_target": AbilityTargetEnum.ENEMY.value,
         "mana_cost": 10,
-        "type": "arcane",
-        "target": "single",
-        "effect_type": "damage",
-        "effect_status": "none",
-        "effect_value": 10,
-        "description": "Unleash a flurry of magical darts that strike your enemies unerringly."
+        "stamina_cost": 5,
+        "type": SpellTypeEnum.ARCANE.value,
+        "target": AbilityTargetTypeEnum.SINGLE.value,
+        "effect_type": EffectTypeEnum.DAMAGE.value,
+        "effect_status": EffectStatus.NONE.value,
+        "effect_value": 12,
+        "description": AbilityDescriptionEnum.MAGIC_MISSILE.value
     },
-    "Fireball": {
-        "title": "Fireball",
-        "mana_cost": 10,
-        "type": "fire",
-        "target": "single",
-        "effect_type": "damage",
-        "effect_status": "burning",
+    SpellTitleEnum.FIREBALL.value: {
+        "title": SpellTitleEnum.FIREBALL.value,
+        "ability_type": AbilityTypeEnum.SPELL.value,
+        "ability_target": AbilityTargetEnum.ENEMY.value,
+        "mana_cost": 20,
+        "stamina_cost": 5,
+        "type": SpellTypeEnum.FIRE.value,
+        "target": AbilityTargetTypeEnum.AREA.value,
+        "effect_type": EffectTypeEnum.DAMAGE.value,
+        "effect_status": EffectStatus.BURN.value,
         "effect_value": 200,
-        "description": "Hurl a fiery ball of flame that explodes on impact, damaging all creatures in the area."
+        "description": AbilityDescriptionEnum.FIREBALL.value
     },
-    "Shield": {
-        "title": "Shield",
+    SpellTitleEnum.SHIELD.value: {
+        "title": SpellTitleEnum.SHIELD.value,
+        "ability_type": AbilityTypeEnum.SPELL.value,
+        "ability_target": AbilityTargetEnum.SELF.value,
         "mana_cost": 10,
-        "description": "Create a magical shield that blocks incoming attacks, providing temporary hit points."
+        "stamina_cost": 0,
+        "type": SpellTypeEnum.ARCANE.value,
+        "target": AbilityTargetTypeEnum.SINGLE.value,
+        "effect_type": EffectTypeEnum.STATUS.value,
+        "effect_status": EffectStatus.NONE.value,
+        "effect_value": 30,
+        "description": AbilityDescriptionEnum.SHIELD.value
     },
-    "Mage Armor": {
-        "title": "Mage Armor",
-        "mana_cost": 5,
-        "description": "Create a magical suit of armor that increases your armor class for the duration of the spell."
+    SpellTitleEnum.MAGE_ARMOR.value: {
+        "title": SpellTitleEnum.MAGE_ARMOR.value,
+        "ability_type": AbilityTypeEnum.SPELL.value,
+        "ability_target": AbilityTargetEnum.SELF.value,
+        "mana_cost": 10,
+        "stamina_cost": 0,
+        "type": SpellTypeEnum.ARCANE.value,
+        "target": AbilityTargetTypeEnum.SINGLE.value,
+        "effect_type": EffectTypeEnum.STATUS.value,
+        "effect_status": EffectStatus.NONE.value,
+        "effect_value": 100,
+        "description": AbilityDescriptionEnum.MAGE_ARMOR.value
     },
-    "Thunderwave": {
-        "title": "Thunderwave",
-        "mana_cost": 25,
-        "description": "Unleash a powerful blast of thunderous energy that damages enemies and pushes them back."
+    SpellTitleEnum.THUNDERWAVE.value: {
+        "title": SpellTitleEnum.THUNDERWAVE.value,
+        "ability_type": AbilityTypeEnum.SPELL.value,
+        "ability_target": AbilityTargetEnum.ENEMY.value,
+        "mana_cost": 35,
+        "stamina_cost": 0,
+        "type": SpellTypeEnum.LIGHTNING.value,
+        "target": AbilityTargetTypeEnum.AREA.value,
+        "effect_type": EffectTypeEnum.DAMAGE.value,
+        "effect_status": EffectStatus.PARALYZE.value,
+        "effect_value": 40,
+        "description": AbilityDescriptionEnum.THUNDERWAVE.value
     },
     "Mage Hand": {
         "title": "Mage Hand",
-        "mana_cost": 8,
+        "ability_type": AbilityTypeEnum.SPELL.value,
+        "ability_target": AbilityTargetEnum.ENEMY.value,
+        "mana_cost": 35,
+        "stamina_cost": 0,
+        "type": SpellTypeEnum.LIGHTNING.value,
+        "target": AbilityTargetTypeEnum.AREA.value,
+        "effect_type": EffectTypeEnum.DAMAGE.value,
+        "effect_status": EffectStatus.PARALYZE.value,
+        "effect_value": 40,
         "description": "Create an invisible hand that can manipulate objects at a distance."
     },
     "Charm Person": {

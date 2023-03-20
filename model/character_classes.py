@@ -30,6 +30,7 @@ class_data (dict): A dictionary containing CharacterClass instances for each cla
 """
 from model import ability_pool
 from model.character_class import CharacterClass
+from model.game_enums import SpellTitleEnum
 
 barbarian_modifiers = {
     "intelligence": -2,
@@ -205,10 +206,10 @@ wizard_modifiers = {
     "dexterity": 2,
     "strength": -2
 }
-wizard_abilities = [ability_pool.wizard["Magic Missile"]["title"],
-                    ability_pool.wizard["Fireball"]["title"],
-                    ability_pool.wizard["Shield"]["title"],
-                    ability_pool.wizard["Mage Armor"]["title"],
+wizard_abilities = [ability_pool.wizard[SpellTitleEnum.MAGIC_MISSILE.value]["title"],
+                    ability_pool.wizard[SpellTitleEnum.FIREBALL.value]["title"],
+                    ability_pool.wizard[SpellTitleEnum.SHIELD.value]["title"],
+                    ability_pool.wizard[SpellTitleEnum.MAGE_ARMOR.value]["title"],
                     ability_pool.wizard["Thunderwave"]["title"],
                     ability_pool.wizard["Mage Hand"]["title"],
                     ability_pool.wizard["Charm Person"]["title"],

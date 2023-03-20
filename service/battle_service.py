@@ -176,12 +176,12 @@ def get_decision(character: Character) -> tuple:
     return decision_type, decision_data
 
 
-def use_ability(character: Character, enemy: Character, decision_data) -> None:
+def use_ability(attacker: Character, defender: Character, decision_data) -> None:
     """
         Allows a character to use an ability against an enemy.
 
-        :param character: The Character object representing the character using the ability.
-        :param enemy: The Character object representing the enemy being targeted by the ability.
+        :param attacker: The Character object representing the character using the ability.
+        :param defender: The Character object representing the enemy being targeted by the ability.
         :param decision_data: A dictionary containing the ability's data.
         :return: None
     """
@@ -189,18 +189,24 @@ def use_ability(character: Character, enemy: Character, decision_data) -> None:
     ability = decision_data
 
     if ability is None:
-        print(f"{character.name} tried to use an unknown ability: {ability_name}")
+        print(f"{attacker.name} tried to use an unknown ability: {ability_name}")
         return
 
-    if character.mana < ability['mana_cost']:
-        print(f"{character.name} does not have enough mana to use {ability_name}")
+    if attacker.mana < ability['mana_cost']:
+        print(f"{attacker.name} does not have enough mana to use {ability_name}")
+        return
+
+    if attacker.stamina < ability['stamina_cost']:
+        print(f"{attacker.name} does not have enough stamina to use {ability_name}")
         return
 
     # Deduct the mana cost
-    character.mana -= ability['mana_cost']
+    attacker.mana -= ability['mana_cost']
+    # Deduct the stamina cost
+    attacker.stamina -= ability['stamina_cost']
 
     # Apply the ability's effect
-    apply_ability_effect(character, enemy, ability)
+    apply_ability_effect(attacker, defender, ability)
 
 
 def apply_ability_effect(character: Character, enemy: Character, ability: dict) -> None:
