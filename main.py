@@ -1,3 +1,5 @@
+from model.ability_pool import warlock
+from model.ability_pool_final import wizard
 from model.attribute import Attributes
 from model.character_classes import class_data
 from model.races import race_data
@@ -39,9 +41,10 @@ hero_attributes = Attributes(enemy_intelligence, enemy_dexterity, enemy_strength
 
 
 # Create characters
-hero = create_character(hero_name, hero_attack, hero_defense, hero_level, hero_attributes, hero_race, hero_class, race_data, class_data, hero_experience)
-enemy = create_character(enemy_name, enemy_attack, enemy_defense, enemy_level, enemy_attributes, enemy_race, enemy_class, race_data, class_data, enemy_experience)
-
+hero = create_character(hero_name, hero_attack, hero_defense, hero_level, hero_attributes, hero_race, hero_class,
+                        race_data, class_data, hero_experience)
+enemy = create_character(enemy_name, enemy_attack, enemy_defense, enemy_level, enemy_attributes, enemy_race,
+                         enemy_class, race_data, class_data, enemy_experience)
 
 # Print character info
 print(character_str(hero))

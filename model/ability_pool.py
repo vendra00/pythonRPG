@@ -516,42 +516,62 @@ warlock = {
 wizard = {
     "Magic Missile": {
         "title": "Magic Missile",
+        "mana_cost": 10,
+        "type": "arcane",
+        "target": "single",
+        "effect_type": "damage",
+        "effect_status": "none",
+        "effect_value": 10,
         "description": "Unleash a flurry of magical darts that strike your enemies unerringly."
     },
     "Fireball": {
         "title": "Fireball",
+        "mana_cost": 10,
+        "type": "fire",
+        "target": "single",
+        "effect_type": "damage",
+        "effect_status": "burning",
+        "effect_value": 200,
         "description": "Hurl a fiery ball of flame that explodes on impact, damaging all creatures in the area."
     },
     "Shield": {
         "title": "Shield",
+        "mana_cost": 10,
         "description": "Create a magical shield that blocks incoming attacks, providing temporary hit points."
     },
     "Mage Armor": {
         "title": "Mage Armor",
+        "mana_cost": 5,
         "description": "Create a magical suit of armor that increases your armor class for the duration of the spell."
     },
     "Thunderwave": {
         "title": "Thunderwave",
+        "mana_cost": 25,
         "description": "Unleash a powerful blast of thunderous energy that damages enemies and pushes them back."
     },
     "Mage Hand": {
         "title": "Mage Hand",
+        "mana_cost": 8,
         "description": "Create an invisible hand that can manipulate objects at a distance."
     },
     "Charm Person": {
         "title": "Charm Person",
+        "mana_cost": 30,
         "description": "Temporarily charm a humanoid creature, making them friendly towards you."
     },
     "Identify": {
         "title": "Identify",
+        "mana_cost": 5,
         "description": "Learn the magical properties of a single item or creature."
     },
     "Sleep": {
         "title": "Sleep",
+        "mana_cost": 20,
         "description": "Cause creatures within an area to fall into a magical slumber, rendering them unconscious."
     },
     "Levitate": {
         "title": "Levitate",
+        "mana_cost": 15,
         "description": "Cause a creature or object to levitate in the air, allowing it to move freely."
     }
 }
