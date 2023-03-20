@@ -531,7 +531,7 @@ wizard = {
         "target": "single",
         "effect_type": "damage",
         "effect_status": "burning",
-        "effect_value": 10,
+        "effect_value": 200,
         "description": "Hurl a fiery ball of flame that explodes on impact, damaging all creatures in the area."
     },
     "Shield": {

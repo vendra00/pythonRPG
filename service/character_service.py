@@ -3,6 +3,8 @@ from typing import Tuple, Optional
 from colorama import init, Style, Fore
 
 from model.character_class import CharacterClass
+from model.format_factory import separator
+from model.game_enums import CalculatedAttributesEnum, AttributesEnum
 from model.race import Race
 from model.attribute import Attributes
 from model.calculated_attribute import CalculatedAttributes
@@ -11,8 +13,9 @@ from model.character import Character
 init(autoreset=True)  # Automatically resets the color after each print statement
 
 
-def create_character(name, attack, defense, level, attributes, race_name, class_name, race_data, class_data, experience,
-                     health=None, stamina=None, mana=None):
+def create_character(name: str, attack: int, defense: int, level: int, attributes: Attributes, race_name: str,
+                     class_name: str, race_data: dict, class_data: dict, experience: int, health: int = None,
+                     stamina: int = None, mana: int = None):
     """
     Create a character with the given parameters.
 
@@ -75,7 +78,7 @@ def apply_attributes_adjustments(attributes: Attributes, character_class: Charac
     return adjusted_attributes
 
 
-def exp_to_next_level(current_level):
+def exp_to_next_level(current_level: int) -> int:
     """
     Calculate the experience points required for the character to reach the next level.
 
@@ -231,12 +234,12 @@ def attack_enemy(attacker: Character, defender: Character) -> None:
     :param attacker: The attacking Character instance.
     :param defender: The defending Character instance.
     """
-    damage_dealt = calculate_physical_dmg(attacker, defender)
+    damage_dealt: float = calculate_physical_dmg(attacker, defender)
     take_damage(defender, damage_dealt)  # Use the take_damage function instead of the method
     print_attack_log(attacker, damage_dealt, defender)
 
 
-def print_attack_log(attacker, damage_dealt, defender):
+def print_attack_log(attacker: Character, damage_dealt: float, defender: Character) -> None:
     """
         Print the attack log message for a given attack.
 
@@ -245,10 +248,10 @@ def print_attack_log(attacker, damage_dealt, defender):
         :param defender: The defending Character instance.
     """
     print(f"{attacker.name} attacks {defender.name} and deals "
-          f"{Style.BRIGHT}{Fore.RED}{round(damage_dealt, 2)}{Style.RESET_ALL} damage.")
+          f"{Style.BRIGHT}{Fore.RED}{int(damage_dealt)}{Style.RESET_ALL} damage.")
 
 
-def calculate_physical_dmg(attacker, defender):
+def calculate_physical_dmg(attacker: Character, defender: Character) -> float:
     """
         Calculates the amount of physical damage the attacker inflicts on the defender.
 
@@ -259,7 +262,7 @@ def calculate_physical_dmg(attacker, defender):
     return max(0, (attack_formula(attacker)) - (defender_formula(defender)))
 
 
-def defender_formula(defender):
+def defender_formula(defender: Character) -> float:
     """
         Calculate the defender's physical resistance based on their defense and physical resistance attribute.
 
@@ -279,7 +282,7 @@ def attack_formula(attacker):
     return attacker.attack * attacker.calculated_attributes.physical_power / 100
 
 
-def take_damage(character: Character, damage: int) -> None:
+def take_damage(character: Character, damage: float) -> None:
     """
     Inflict damage to a character, reducing their health.
 
@@ -299,7 +302,7 @@ def is_alive(character: Character) -> bool:
     return character.health > 0
 
 
-def level_up(character):
+def level_up(character: Character) -> Character:
     """
     Level up the character, increasing their level, attributes, and other properties.
 
@@ -334,7 +337,7 @@ def level_up(character):
     return character
 
 
-def restore_vitals(character) -> None:
+def restore_vitals(character: Character) -> None:
     """
     Restore the character's health, mana, and stamina to their maximum values.
 
@@ -346,7 +349,7 @@ def restore_vitals(character) -> None:
     character.stamina = character.max_stamina
 
 
-def hold_old_lvl_stats(character) -> Tuple[int, int, int, int, int, int, int]:
+def hold_old_lvl_stats(character: Character) -> Tuple[int, int, int, int, int, int, int]:
     """
     Save the character's old values before leveling up.
 
@@ -354,18 +357,18 @@ def hold_old_lvl_stats(character) -> Tuple[int, int, int, int, int, int, int]:
     :return: A tuple containing the old level, old dexterity, old intelligence, old strength, old max health,
     old max mana, and old max stamina.
     """
-    old_level = character.level
-    old_level_strength = character.attributes.strength
-    old_level_intelligence = character.attributes.intelligence
-    old_level_dexterity = character.attributes.dexterity
-    old_max_health = character.max_health
-    old_max_mana = character.max_mana
-    old_max_stamina = character.max_stamina
+    old_level: int = character.level
+    old_level_strength: int = character.attributes.strength
+    old_level_intelligence: int = character.attributes.intelligence
+    old_level_dexterity: int = character.attributes.dexterity
+    old_max_health: int = character.max_health
+    old_max_mana: int = character.max_mana
+    old_max_stamina: int = character.max_stamina
     return old_level, old_level_dexterity, old_level_intelligence, old_level_strength, old_max_health, old_max_mana, \
         old_max_stamina
 
 
-def attributes_updater(character) -> None:
+def attributes_updater(character: Character) -> None:
     """
     Update the character's attributes upon leveling up.
 
@@ -377,7 +380,7 @@ def attributes_updater(character) -> None:
     character.attributes.dexterity += 1
 
 
-def prepare_character_recalculate(character) -> Character:
+def prepare_character_recalculate(character: Character) -> Character:
     """
     Prepare the character for recalculating derived attributes.
 
@@ -403,8 +406,8 @@ def prepare_character_recalculate(character) -> Character:
     return character
 
 
-def print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_intelligence, old_level_strength,
-                        old_max_health, old_max_mana, old_max_stamina) -> None:
+def print_new_lvl_stats(character: Character, old_level: int, old_level_dexterity: int, old_level_intelligence: int,
+                        old_level_strength: int, old_max_health: int, old_max_mana: int, old_max_stamina: int) -> None:
     """
     Print the character's new stats after leveling up.
 
@@ -418,7 +421,7 @@ def print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_int
     :param old_max_stamina: The character's old max stamina before leveling up.
     :return: None
     """
-    print("\n" + "=" * 40)
+    print(separator)
     print(f"{Fore.GREEN}{character.name} has leveled up to level {character.level}!\n{Style.RESET_ALL}")
     print(f"{Style.BRIGHT}Level{Style.RESET_ALL}        {old_level:>3} -> {Style.BRIGHT}{character.level:<3}"
           f"{Style.RESET_ALL}")
@@ -440,31 +443,47 @@ def print_new_lvl_stats(character, old_level, old_level_dexterity, old_level_int
     print(f"{Style.BRIGHT}Dexterity{Style.RESET_ALL}    {old_level_dexterity:>3} -> {Style.BRIGHT}{Fore.YELLOW}"
           f"{character.attributes.dexterity:<3}"
           f"{Style.RESET_ALL}")
-    print("=" * 40 + "\n")
+    print(separator)
 
 
-def award_experience(character, experience_points):
+def award_experience(character: Character) -> Character:
     """
     Award experience points to the character and level up the character if necessary.
 
     :param character: The character to receive the experience points.
-    :param experience_points: The amount of experience points to award.
     :return: The updated character.
     """
-    # Add experience points to the character's current experience
-    character.experience += experience_points
+    # The amount of experience points to award to the character
+    experience_points: int = 100
 
-    print(f"{character.name} gained {experience_points} experience points!")
+    # Add experience points to the character's current experience
+    add_exp(character, experience_points)
+
+    # Print the amount of experience points gained
+    print_gained_exp(character, experience_points)
 
     # Check if the character has enough experience points to level up
+    character = check_exp_for_lvl_up(character)
+
+    return character
+
+
+def check_exp_for_lvl_up(character: Character) -> Character:
     while character.experience >= exp_to_next_level(character.level):
         # Subtract the experience points required to level up
         character.experience -= exp_to_next_level(character.level)
 
         # Level up the character
         character = level_up(character)
-
     return character
+
+
+def add_exp(character: Character, experience_points: int) -> None:
+    character.experience += experience_points
+
+
+def print_gained_exp(character: Character, experience_points: int) -> None:
+    print(f"{character.name} gained {experience_points} experience points!")
 
 
 def calculate_initiative(attributes: Attributes) -> float:
@@ -514,7 +533,7 @@ def calculate_status_resistence(attributes: Attributes) -> float:
     :param attributes: The Attributes instance containing a character's strength, dexterity, and intelligence values.
     :return: The calculated status resistance as a float.
     """
-    return (attributes.dexterity + attributes.intelligence + attributes.strength) / 3
+    return round(((attributes.dexterity + attributes.intelligence + attributes.strength) / 3), 2)
 
 
 def calculate_magic_resistence(attributes: Attributes) -> float:
@@ -524,7 +543,7 @@ def calculate_magic_resistence(attributes: Attributes) -> float:
     :param attributes: The Attributes instance containing a character's strength, dexterity, and intelligence values.
     :return: The calculated magic resistance as a float.
     """
-    return (attributes.dexterity + attributes.intelligence) / 2
+    return round(((attributes.dexterity + attributes.intelligence) / 2), 2)
 
 
 def calculate_physical_resistence(attributes: Attributes) -> float:
@@ -534,7 +553,7 @@ def calculate_physical_resistence(attributes: Attributes) -> float:
     :param attributes: The Attributes instance containing a character's strength, dexterity, and intelligence values.
     :return: The calculated physical resistance as a float.
     """
-    return (attributes.dexterity + attributes.strength) / 2
+    return round(((attributes.dexterity + attributes.strength) / 2), 2)
 
 
 def calculate_magic_power(attributes: Attributes) -> float:
@@ -544,7 +563,7 @@ def calculate_magic_power(attributes: Attributes) -> float:
     :param attributes: The Attributes instance containing a character's strength, dexterity, and intelligence values.
     :return: The calculated magic power as a float.
     """
-    return (attributes.dexterity + attributes.intelligence) * 2
+    return round(((attributes.dexterity + attributes.intelligence) * 2), 2)
 
 
 def calculate_physical_power(attributes: Attributes) -> float:
@@ -554,15 +573,44 @@ def calculate_physical_power(attributes: Attributes) -> float:
     :param attributes: The Attributes instance containing a character's strength, dexterity, and intelligence values.
     :return: The calculated physical power as a float.
     """
-    return (attributes.dexterity + attributes.strength) * 2
+    return round(((attributes.dexterity + attributes.strength) * 2), 2)
+
+
+def calculate_attributes_for_enum(key) -> str:
+    if key == CalculatedAttributesEnum.initiative.name:
+        return CalculatedAttributesEnum.initiative.value
+    elif key == CalculatedAttributesEnum.status_resistence.name:
+        return CalculatedAttributesEnum.status_resistence.value
+    elif key == CalculatedAttributesEnum.magic_resistence.name:
+        return CalculatedAttributesEnum.magic_resistence.value
+    elif key == CalculatedAttributesEnum.physical_resistence.name:
+        return CalculatedAttributesEnum.physical_resistence.value
+    elif key == CalculatedAttributesEnum.magic_power.name:
+        return CalculatedAttributesEnum.magic_power.value
+    elif key == CalculatedAttributesEnum.physical_power.name:
+        return CalculatedAttributesEnum.physical_power.value
+    else:
+        return "Unknown"
+
+
+def attributes_for_enum(key) -> str:
+    if key == AttributesEnum.strength.name:
+        return AttributesEnum.strength.value
+    elif key == AttributesEnum.intelligence.name:
+        return AttributesEnum.intelligence.value
+    elif key == AttributesEnum.dexterity.name:
+        return AttributesEnum.dexterity.value
+    else:
+        return "Unknown"
 
 
 def character_str(character: Character) -> str:
-    separator = "\n" + "=" * 40
-    attribute_str = "\n".join([f"{key.capitalize()}: {Fore.YELLOW}{value}{Style.RESET_ALL}" for key, value in
-                               character.attributes.__dict__.items()])
-    calculated_attr_str = "\n".join([f"{key.capitalize()}: {Fore.GREEN}{value}{Style.RESET_ALL}" for key, value in
-                                     character.calculated_attributes.__dict__.items()])
+    attribute_str = "\n".join(
+        [f"{attributes_for_enum(key)}: {Fore.YELLOW}{value}{Style.RESET_ALL}" for key, value in
+         character.attributes.__dict__.items()])
+    calculated_attr_str = "\n".join(
+        [f"{calculate_attributes_for_enum(key)}: {Fore.GREEN}{value}{Style.RESET_ALL}%" for key, value in
+         character.calculated_attributes.__dict__.items()])
     abilities_str = f"{Fore.CYAN}{', '.join(character.character_class.abilities)}{Style.RESET_ALL}"
 
     return (
