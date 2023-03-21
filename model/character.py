@@ -19,7 +19,7 @@ class Character:
         :param experience: The character's current experience points.
     """
     def __init__(self, name, health, max_health, stamina, max_stamina, mana, max_mana, attack, defense, level,
-                 attributes, calculated_attributes, race, character_class, experience):
+                 attributes, calculated_attributes, race, character_class, experience) -> None:
 
         self.name = name
         self.health = health

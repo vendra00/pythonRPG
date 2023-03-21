@@ -15,7 +15,7 @@ init(autoreset=True)  # Automatically resets the color after each print statemen
 
 def create_character(name: str, attack: int, defense: int, level: int, attributes: Attributes, race_name: str,
                      class_name: str, race_data: dict, class_data: dict, experience: int, health: int = None,
-                     stamina: int = None, mana: int = None):
+                     stamina: int = None, mana: int = None) -> Character:
     """
     Create a character with the given parameters.
 

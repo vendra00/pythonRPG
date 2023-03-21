@@ -1,5 +1,3 @@
-from model.ability_pool import warlock
-from model.ability_pool_final import wizard
 from model.attribute import Attributes
 from model.character_classes import class_data
 from model.races import race_data
