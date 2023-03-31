@@ -36,6 +36,9 @@ class SpellTitleEnum(Enum):
     THUNDERWAVE = "Thunderwave"
     MAGE_HAND = "Mage hand"
     CHARM_PERSON = "Charm person"
+    IDENTIFY = "Identify"
+    SLEEP = "Sleep"
+    LEVITATE = "Levitate"
 
 
 class SpellTypeEnum(Enum):
@@ -49,6 +52,7 @@ class SpellTypeEnum(Enum):
     LIGHT = "light"
     ARCANE = "arcane"
     CHAOS = "chaos"
+    COMMON = "Common"
 
 
 class EffectStatusEnum(Enum):
@@ -103,6 +107,9 @@ class AbilityDescriptionEnum(Enum):
     THUNDERWAVE_DESCRIPTION = "Unleash a powerful blast of thunderous energy that damages enemies and pushes them back."
     MAGE_HAND_DESCRIPTION = "Create an invisible hand that can manipulate objects at a distance."
     CHARM_PERSON_DESCRIPTION = "Temporarily charm a humanoid creature, making them friendly towards you."
+    INDENTIFY_DESCRIPTION = "Learn the magical properties of a single item or creature."
+    SLEEP_DESCRIPTION = "Cause creatures within an area to fall into a magical slumber, rendering them unconscious."
+    LEVITATE_DESCRIPTION = "Cause a creature or object to levitate in the air, allowing it to move freely."
 
 
 class AbilityStructureEnum(Enum):

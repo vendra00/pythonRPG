@@ -610,19 +610,43 @@ wizard = {
         abilityStructure.EFFECT_VALUE.value: 0,
         abilityStructure.DESCRIPTION.value: abilityDesc.CHARM_PERSON_DESCRIPTION.value
     },
-    "Identify": {
-        "title": "Identify",
-        "mana_cost": 5,
-        "description": "Learn the magical properties of a single item or creature."
+    spellTitle.IDENTIFY.value: {
+        abilityStructure.TITLE.value: spellTitle.IDENTIFY.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.ALL.value,
+        abilityStructure.MANA_COST.value: 20,
+        abilityStructure.STAMINA_COST.value: 0,
+        abilityStructure.TYPE.value: spellType.COMMON.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.NONE.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.NONE.value,
+        abilityStructure.EFFECT_VALUE.value: 0,
+        abilityStructure.DESCRIPTION.value: abilityDesc.INDENTIFY_DESCRIPTION.value
     },
-    "Sleep": {
-        "title": "Sleep",
-        "mana_cost": 20,
-        "description": "Cause creatures within an area to fall into a magical slumber, rendering them unconscious."
+    spellTitle.SLEEP.value: {
+        abilityStructure.TITLE.value: spellTitle.SLEEP.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.ALL.value,
+        abilityStructure.MANA_COST.value: 20,
+        abilityStructure.STAMINA_COST.value: 0,
+        abilityStructure.TYPE.value: spellType.COMMON.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.STATUS.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.SLEEP.value,
+        abilityStructure.EFFECT_VALUE.value: 0,
+        abilityStructure.DESCRIPTION.value: abilityDesc.INDENTIFY_DESCRIPTION.value
     },
-    "Levitate": {
-        "title": "Levitate",
-        "mana_cost": 15,
-        "description": "Cause a creature or object to levitate in the air, allowing it to move freely."
+    spellTitle.LEVITATE.value: {
+        abilityStructure.TITLE.value: spellTitle.LEVITATE.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.ALL.value,
+        abilityStructure.MANA_COST.value: 20,
+        abilityStructure.STAMINA_COST.value: 5,
+        abilityStructure.TYPE.value: spellType.COMMON.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.NONE.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.NONE.value,
+        abilityStructure.EFFECT_VALUE.value: 0,
+        abilityStructure.DESCRIPTION.value: abilityDesc.LEVITATE_DESCRIPTION.value
     }
 }
