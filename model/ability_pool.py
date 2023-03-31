@@ -1,5 +1,7 @@
-from model.game_enums import AbilityTypeEnum, SpellTitleEnum, AbilityTargetTypeEnum, EffectTypeEnum, AbilityTargetEnum, \
-    SpellTypeEnum, EffectStatus, AbilityDescriptionEnum
+from model.game_enums import AbilityTypeEnum as abilityType, SpellTitleEnum as spellTitle, \
+    AbilityTargetTypeEnum as abilityTargetType, EffectTypeEnum as effectType, AbilityTargetEnum as abilityTarget, \
+    SpellTypeEnum as spellType, EffectStatusEnum as effectStatus, AbilityDescriptionEnum as abilityDesc, \
+    AbilityStructureEnum as abilityStructure
 
 barbarian = {
     "Reckless Attack": {
@@ -517,88 +519,96 @@ warlock = {
 }
 
 wizard = {
-    SpellTitleEnum.MAGIC_MISSILE.value: {
-        "title": SpellTitleEnum.MAGIC_MISSILE.value,
-        "ability_type": AbilityTypeEnum.SPELL.value,
-        "ability_target": AbilityTargetEnum.ENEMY.value,
-        "mana_cost": 10,
-        "stamina_cost": 5,
-        "type": SpellTypeEnum.ARCANE.value,
-        "target": AbilityTargetTypeEnum.SINGLE.value,
-        "effect_type": EffectTypeEnum.DAMAGE.value,
-        "effect_status": EffectStatus.NONE.value,
-        "effect_value": 12,
-        "description": AbilityDescriptionEnum.MAGIC_MISSILE.value
+    spellTitle.MAGIC_MISSILE.value: {
+        abilityStructure.TITLE.value: spellTitle.MAGIC_MISSILE.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.ENEMY.value,
+        abilityStructure.MANA_COST.value: 10,
+        abilityStructure.STAMINA_COST.value: 5,
+        abilityStructure.TYPE.value: spellType.ARCANE.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.DAMAGE.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.NONE.value,
+        abilityStructure.EFFECT_VALUE.value: 12,
+        abilityStructure.DESCRIPTION.value: abilityDesc.MAGIC_MISSILE_DESCRIPTION.value
     },
-    SpellTitleEnum.FIREBALL.value: {
-        "title": SpellTitleEnum.FIREBALL.value,
-        "ability_type": AbilityTypeEnum.SPELL.value,
-        "ability_target": AbilityTargetEnum.ENEMY.value,
-        "mana_cost": 20,
-        "stamina_cost": 5,
-        "type": SpellTypeEnum.FIRE.value,
-        "target": AbilityTargetTypeEnum.AREA.value,
-        "effect_type": EffectTypeEnum.DAMAGE.value,
-        "effect_status": EffectStatus.BURN.value,
-        "effect_value": 200,
-        "description": AbilityDescriptionEnum.FIREBALL.value
+    spellTitle.FIREBALL.value: {
+        abilityStructure.TITLE.value: spellTitle.FIREBALL.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.ENEMY.value,
+        abilityStructure.MANA_COST.value: 20,
+        abilityStructure.STAMINA_COST.value: 5,
+        abilityStructure.TYPE.value: spellType.FIRE.value,
+        abilityStructure.TARGET.value: abilityTargetType.AREA.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.DAMAGE.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.BURN.value,
+        abilityStructure.EFFECT_VALUE.value: 200,
+        abilityStructure.DESCRIPTION.value: abilityDesc.FIREBALL_DESCRIPTION.value
     },
-    SpellTitleEnum.SHIELD.value: {
-        "title": SpellTitleEnum.SHIELD.value,
-        "ability_type": AbilityTypeEnum.SPELL.value,
-        "ability_target": AbilityTargetEnum.SELF.value,
-        "mana_cost": 10,
-        "stamina_cost": 0,
-        "type": SpellTypeEnum.ARCANE.value,
-        "target": AbilityTargetTypeEnum.SINGLE.value,
-        "effect_type": EffectTypeEnum.STATUS.value,
-        "effect_status": EffectStatus.NONE.value,
-        "effect_value": 30,
-        "description": AbilityDescriptionEnum.SHIELD.value
+    spellTitle.SHIELD.value: {
+        abilityStructure.TITLE.value: spellTitle.SHIELD.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.SELF.value,
+        abilityStructure.MANA_COST.value: 10,
+        abilityStructure.STAMINA_COST.value: 0,
+        abilityStructure.TYPE.value: spellType.ARCANE.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.STATUS.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.NONE.value,
+        abilityStructure.EFFECT_VALUE.value: 30,
+        abilityStructure.DESCRIPTION.value: abilityDesc.SHIELD_DESCRIPTION.value
     },
-    SpellTitleEnum.MAGE_ARMOR.value: {
-        "title": SpellTitleEnum.MAGE_ARMOR.value,
-        "ability_type": AbilityTypeEnum.SPELL.value,
-        "ability_target": AbilityTargetEnum.SELF.value,
-        "mana_cost": 10,
-        "stamina_cost": 0,
-        "type": SpellTypeEnum.ARCANE.value,
-        "target": AbilityTargetTypeEnum.SINGLE.value,
-        "effect_type": EffectTypeEnum.STATUS.value,
-        "effect_status": EffectStatus.NONE.value,
-        "effect_value": 100,
-        "description": AbilityDescriptionEnum.MAGE_ARMOR.value
+    spellTitle.MAGE_ARMOR.value: {
+        abilityStructure.TITLE.value: spellTitle.MAGE_ARMOR.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.SELF.value,
+        abilityStructure.MANA_COST.value: 10,
+        abilityStructure.STAMINA_COST.value: 0,
+        abilityStructure.TYPE.value: spellType.ARCANE.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.STATUS.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.NONE.value,
+        abilityStructure.EFFECT_VALUE.value: 100,
+        abilityStructure.DESCRIPTION.value: abilityDesc.MAGE_ARMOR_DESCRIPTION.value
     },
-    SpellTitleEnum.THUNDERWAVE.value: {
-        "title": SpellTitleEnum.THUNDERWAVE.value,
-        "ability_type": AbilityTypeEnum.SPELL.value,
-        "ability_target": AbilityTargetEnum.ENEMY.value,
-        "mana_cost": 35,
-        "stamina_cost": 0,
-        "type": SpellTypeEnum.LIGHTNING.value,
-        "target": AbilityTargetTypeEnum.AREA.value,
-        "effect_type": EffectTypeEnum.DAMAGE.value,
-        "effect_status": EffectStatus.PARALYZE.value,
-        "effect_value": 40,
-        "description": AbilityDescriptionEnum.THUNDERWAVE.value
+    spellTitle.THUNDERWAVE.value: {
+        abilityStructure.TITLE.value: spellTitle.THUNDERWAVE.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.ENEMY.value,
+        abilityStructure.MANA_COST.value: 35,
+        abilityStructure.STAMINA_COST.value: 0,
+        abilityStructure.TYPE.value: spellType.LIGHTNING.value,
+        abilityStructure.TARGET.value: abilityTargetType.AREA.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.DAMAGE.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.PARALYZE.value,
+        abilityStructure.EFFECT_VALUE.value: 40,
+        abilityStructure.DESCRIPTION.value: abilityDesc.THUNDERWAVE_DESCRIPTION.value
     },
-    "Mage Hand": {
-        "title": "Mage Hand",
-        "ability_type": AbilityTypeEnum.SPELL.value,
-        "ability_target": AbilityTargetEnum.ENEMY.value,
-        "mana_cost": 35,
-        "stamina_cost": 0,
-        "type": SpellTypeEnum.LIGHTNING.value,
-        "target": AbilityTargetTypeEnum.AREA.value,
-        "effect_type": EffectTypeEnum.DAMAGE.value,
-        "effect_status": EffectStatus.PARALYZE.value,
-        "effect_value": 40,
-        "description": "Create an invisible hand that can manipulate objects at a distance."
+    spellTitle.MAGE_HAND.value: {
+        abilityStructure.TITLE.value: spellTitle.MAGE_HAND.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.SELF.value,
+        abilityStructure.MANA_COST.value: 35,
+        abilityStructure.STAMINA_COST.value: 0,
+        abilityStructure.TYPE.value: spellType.ARCANE.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.NONE.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.NONE.value,
+        abilityStructure.EFFECT_VALUE.value: 0,
+        abilityStructure.DESCRIPTION.value: abilityDesc.MAGE_HAND_DESCRIPTION.value
     },
-    "Charm Person": {
-        "title": "Charm Person",
-        "mana_cost": 30,
-        "description": "Temporarily charm a humanoid creature, making them friendly towards you."
+    spellTitle.CHARM_PERSON.value: {
+        abilityStructure.TITLE.value: spellTitle.CHARM_PERSON.value,
+        abilityStructure.ABILITY_TYPE.value: abilityType.SPELL.value,
+        abilityStructure.ABILITY_TARGET.value: abilityTarget.ENEMY.value,
+        abilityStructure.MANA_COST.value: 30,
+        abilityStructure.STAMINA_COST.value: 0,
+        abilityStructure.TYPE.value: spellType.ARCANE.value,
+        abilityStructure.TARGET.value: abilityTargetType.SINGLE.value,
+        abilityStructure.EFFECT_TYPE.value: effectType.NONE.value,
+        abilityStructure.EFFECT_STATUS.value: effectStatus.NONE.value,
+        abilityStructure.EFFECT_VALUE.value: 0,
+        abilityStructure.DESCRIPTION.value: abilityDesc.CHARM_PERSON_DESCRIPTION.value
     },
     "Identify": {
         "title": "Identify",

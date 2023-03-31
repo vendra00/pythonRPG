@@ -34,6 +34,8 @@ class SpellTitleEnum(Enum):
     SHIELD = "Shield"
     MAGE_ARMOR = "Mage armor"
     THUNDERWAVE = "Thunderwave"
+    MAGE_HAND = "Mage hand"
+    CHARM_PERSON = "Charm person"
 
 
 class SpellTypeEnum(Enum):
@@ -49,7 +51,7 @@ class SpellTypeEnum(Enum):
     CHAOS = "chaos"
 
 
-class EffectStatus(Enum):
+class EffectStatusEnum(Enum):
     BURN = "burn"
     POISON = "poison"
     FROZEN = "frozen"
@@ -71,6 +73,7 @@ class EffectStatus(Enum):
 
 
 class AbilityTargetEnum(Enum):
+    INANIMATE = "inanimate"
     SELF = "self"
     ENEMY = "enemy"
     ALLY = "ally"
@@ -88,11 +91,29 @@ class EffectTypeEnum(Enum):
     STATUS = "status"
     BUFF = "buff"
     DEBUFF = "debuff"
+    NONE = "none"
 
 
 class AbilityDescriptionEnum(Enum):
-    FIREBALL = "Hurl a fiery ball of flame that explodes on impact, damaging all creatures in a small area."
-    MAGIC_MISSILE = "Unleash a flurry of magical darts that strike your enemies unerringly."
-    SHIELD = "Create a magical shield that blocks incoming attacks, providing temporary hit points."
-    MAGE_ARMOR = "Create a magical suit of armor that increases your armor class for the duration of the spell."
-    THUNDERWAVE = "Unleash a powerful blast of thunderous energy that damages enemies and pushes them back."
+    FIREBALL_DESCRIPTION = "Hurl a fiery ball of flame that explodes on impact, damaging all creatures in a small area."
+    MAGIC_MISSILE_DESCRIPTION = "Unleash a flurry of magical darts that strike your enemies unerringly."
+    SHIELD_DESCRIPTION = "Create a magical shield that blocks incoming attacks, providing temporary hit points."
+    MAGE_ARMOR_DESCRIPTION = "Create a magical suit of armor that increases your armor class for the duration of the " \
+                             "spell."
+    THUNDERWAVE_DESCRIPTION = "Unleash a powerful blast of thunderous energy that damages enemies and pushes them back."
+    MAGE_HAND_DESCRIPTION = "Create an invisible hand that can manipulate objects at a distance."
+    CHARM_PERSON_DESCRIPTION = "Temporarily charm a humanoid creature, making them friendly towards you."
+
+
+class AbilityStructureEnum(Enum):
+    TITLE = "title"
+    ABILITY_TYPE = "ability_type"
+    ABILITY_TARGET = "ability_target"
+    MANA_COST = "mana_cost"
+    STAMINA_COST = "stamina_cost"
+    TYPE = "type"
+    TARGET = "target"
+    EFFECT_TYPE = "effect_type"
+    EFFECT_STATUS = "effect_status"
+    EFFECT_VALUE = "effect_value"
+    DESCRIPTION = "description"
